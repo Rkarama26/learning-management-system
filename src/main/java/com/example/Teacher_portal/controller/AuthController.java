@@ -1,5 +1,8 @@
 package com.example.Teacher_portal.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Teacher_portal.config.JwtProvider;
 import com.example.Teacher_portal.exception.UserException;
+import com.example.Teacher_portal.model.Role;
 import com.example.Teacher_portal.model.User;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.request.LoginRequest;
@@ -26,7 +32,7 @@ import com.example.Teacher_portal.service.CustomUserService;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/home")
 public class AuthController {
 	
 	@Autowired
@@ -54,10 +60,11 @@ public class AuthController {
 		User isEmailExist = userRepository.findByEmail(email);
 		
 		if(isEmailExist != null) {
-			throw new UserException("Email is already User with Another Account");
+			throw new UserException("Email is already Used with Another Account");
 		}
+		
 		 if (password == null) {
-		        throw new UserException("Password cannot be null");
+		        throw new UserException("Password can not be null");
 		    }
 		
 		
@@ -67,6 +74,7 @@ public class AuthController {
 		createdUser.setLastName(lastName);
 		createdUser.setEmail(email);
 		createdUser.setPhoneNumber(phoneNumber);
+
 		
 		User savedUser = userRepository.save(createdUser);
 		
@@ -113,6 +121,11 @@ public class AuthController {
 		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
 			throw new BadCredentialsException("Invalid Password");
 		}
+		
+		User user = userRepository.findByEmail(username);
+	    
+	    
+		
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 

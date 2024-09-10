@@ -1,9 +1,15 @@
 package com.example.Teacher_portal.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -22,13 +28,39 @@ public class User {
 
     private String password;
    
-   // private String role;   //"STUDENT" or "TEACHER"
+  //  @Enumerated(EnumType.STRING)
+  //  private Role role;  //"STUDENT" or "TEACHER"
     
     private String email;
     
     private String phoneNumber;
     
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Availability> availability;
     
+
+	public User(Long id, String firstName, String lastName, String password, String email,
+			String phoneNumber, List<Availability> availability) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.availability = availability;
+	}
+
+
+	public List<Availability> getAvailability() {
+		return availability;
+	}
+
+
+	public void setAvailability(List<Availability> availability) {
+		this.availability = availability;
+	}
 
 	public User() {
 		// NO ARGS CONTRUCTOR

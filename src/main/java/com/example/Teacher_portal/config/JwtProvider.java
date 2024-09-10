@@ -18,6 +18,7 @@ public class JwtProvider {
 	
 	public String generateToken(Authentication auth) {
 		String jwt = Jwts.builder()
+	            .setHeaderParam("alg", "HS256")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(new Date().getTime()+84600000))
 				.claim("email", auth.getName())
@@ -37,5 +38,7 @@ public class JwtProvider {
 		return email;
 				
 	}
+	
+	
 
 }

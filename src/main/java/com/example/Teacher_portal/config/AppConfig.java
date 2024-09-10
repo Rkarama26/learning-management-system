@@ -26,7 +26,7 @@ public class AppConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		  http.
-
+          //session Less
           sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           
           .authorizeHttpRequests(auth -> 
@@ -38,6 +38,7 @@ public class AppConfig {
           .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
           .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
 			
+        	  
 			@Override
 			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 				
