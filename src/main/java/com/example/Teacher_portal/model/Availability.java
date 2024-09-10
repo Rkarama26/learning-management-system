@@ -1,5 +1,6 @@
 package com.example.Teacher_portal.model;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +30,17 @@ public class Availability {
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
+    
+    private LocalDateTime createdAt;
+    
+   
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 
 	public Long getId() {
 		return id;
@@ -75,14 +87,18 @@ public class Availability {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Availability(Long id, String dayOfWeek, LocalTime startTime, LocalTime endTime, User user) {
+	public Availability(Long id, String dayOfWeek, LocalTime startTime, LocalTime endTime, User user,
+			LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.dayOfWeek = dayOfWeek;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.user = user;
+		this.createdAt = createdAt;
 	}
+
+	
 
     
     
