@@ -1,5 +1,6 @@
 package com.example.Teacher_portal.request;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Getter
 public class ReqAvailability {
 
-	private String dayOfWeek;
+	private DayOfWeek dayOfWeek;
 
 	private LocalTime startTime;
 

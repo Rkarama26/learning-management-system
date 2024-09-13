@@ -12,33 +12,62 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "users")
 public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	private String firstName;
+
+	private String lastName;
+
+	private String password;
+
+	private String role;
+
+	private String email;
+
+	private String phoneNumber;
 	
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	public String getRole() {
+		return role;
+	}
 
-    
-    private String firstName;
-    
-    private String lastName;
+	public void setRole(String role) {
+		this.role = role;
+	}
 
-    private String password;
-   
-  //  @Enumerated(EnumType.STRING)
-  //  private Role role;  //"STUDENT" or "TEACHER"
-    
-    private String email;
-    
-    private String phoneNumber;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Availability> availability;
-    
+	@JsonIgnore
+	public List<Appointments> getStudentAppointments() {
+		return studentAppointments;
+	}
+
+	public void setStudentAppointments(List<Appointments> studentAppointments) {
+		this.studentAppointments = studentAppointments;
+	}
+
+	public List<Appointments> getTeacherAppointments() {
+		return teacherAppointments;
+	}
+
+	public void setTeacherAppointments(List<Appointments> teacherAppointments) {
+		this.teacherAppointments = teacherAppointments;
+	}
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Appointments> studentAppointments;
+
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Appointments> teacherAppointments;
+
+	
+
+	// @JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Availability> availability;
 
 	public User(Long id, String firstName, String lastName, String password, String email,
 			String phoneNumber, List<Availability> availability) {
@@ -47,16 +76,15 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
+
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.availability = availability;
 	}
 
-
 	public List<Availability> getAvailability() {
 		return availability;
 	}
-
 
 	public void setAvailability(List<Availability> availability) {
 		this.availability = availability;
@@ -65,18 +93,6 @@ public class User {
 	public User() {
 		// NO ARGS CONTRUCTOR
 	}
-
-	
-	public User(Long id, String firstName, String lastName, String password, String email, String phoneNumber) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-	}
-
 
 	public Long getId() {
 		return id;
@@ -125,12 +141,5 @@ public class User {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-    
-    
-    
-    
-    
-    
-    
 
 }

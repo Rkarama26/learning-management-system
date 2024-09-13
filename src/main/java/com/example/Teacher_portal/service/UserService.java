@@ -11,80 +11,75 @@ import com.example.Teacher_portal.repository.UserRepository;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private JwtProvider Jwtprovider;
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
-	
-	// finding userProfile by JWT 
+	// finding userProfile by JWT
 	public User findUserprofileByJwt(String jwt) throws UserException {
-		
+
 		String email = Jwtprovider.getEmailFromToken(jwt);
-		
+
 		User user = userRepository.findByEmail(email);
-		
-		if(user == null) {
+
+		if (user == null) {
 			throw new UserException("User not found");
 		}
-		
+
 		return user;
 	}
 
-	
-    // update profile
+	// update profile
 	public User updateUserProfile(String jwt, User updatedUser) throws UserException {
-        User user = findUserprofileByJwt(jwt);
-        
-        // Update user profile fields
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhoneNumber(updatedUser.getPhoneNumber());
-      
-        // Save updated user profile
-        User saveUser = userRepository.save(user);
-        
-        return saveUser;
-    }
+		User user = findUserprofileByJwt(jwt);
 
-	
+		// Update user profile fields
+		user.setFirstName(updatedUser.getFirstName());
+		user.setLastName(updatedUser.getLastName());
+		user.setEmail(updatedUser.getEmail());
+		user.setPhoneNumber(updatedUser.getPhoneNumber());
+
+		// Save updated user profile
+		User saveUser = userRepository.save(user);
+
+		return saveUser;
+	}
+
 	// Delete userProfile by ID
-    public void deleteUserProfile(Long id) throws UserException {
-		    
-		    System.out.println(" in service User ID: " + id);
+	public void deleteUserProfile(Long id) throws UserException {
 
-		    User user = userRepository.findById(id).orElseThrow();
-		    
-		    userRepository.delete(user);
+		System.out.println(" in service User ID: " + id);
+
+		User user = userRepository.findById(id).orElseThrow();
+
+		userRepository.delete(user);
+	}
+
+	// change password
+	public void changePassword(String jwt, String oldPassword, String newPassword) throws UserException {
+
+		// System.out.println(" in service JWT Token: " + jwt);
+
+		User user = findUserprofileByJwt(jwt);
+
+		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+			throw new UserException("Old password is incorrect");
 		}
 
-    
-	// change password	
-	public void changePassword(String jwt, String oldPassword, String newPassword) throws UserException {
-       
-		//System.out.println(" in service JWT Token: " + jwt);
+		// Update the user's password
+		user.setPassword(passwordEncoder.encode(newPassword));
+		userRepository.save(user);
+	}
 
-		
-        User user = findUserprofileByJwt(jwt);
-        
-        
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new UserException("Old password is incorrect");
-        }
-        
-        // Update the user's password
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
-    }
+	public User getUserById(Long userId) {
 
+		return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-	
-	
-	
+	}
 
 }

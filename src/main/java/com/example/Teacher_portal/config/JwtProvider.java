@@ -3,6 +3,7 @@ package com.example.Teacher_portal.config;
 
 import java.util.Date;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
@@ -22,11 +23,14 @@ public class JwtProvider {
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(new Date().getTime()+84600000))
 				.claim("email", auth.getName())
+			//	.claim("userId", auth.get)
 				.signWith(key).compact();
 		
 		return jwt;
 		
 		}
+	
+	
 	
 	public String getEmailFromToken(String jwt) {
 		jwt= jwt.substring(7);
@@ -39,6 +43,7 @@ public class JwtProvider {
 				
 	}
 	
+
 	
 
 }

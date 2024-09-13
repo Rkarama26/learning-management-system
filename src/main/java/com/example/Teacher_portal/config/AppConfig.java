@@ -30,10 +30,15 @@ public class AppConfig {
           sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           
           .authorizeHttpRequests(auth -> 
-          auth.requestMatchers("/api/**")
-              .authenticated()
+          auth.requestMatchers("/home/**").permitAll()
+             // .requestMatchers("/api/availability").hasRole("TEACHER")
+              
+         
+              
               .anyRequest()
-              .permitAll())
+              .authenticated()
+              )
+          
           
           .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
           .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {

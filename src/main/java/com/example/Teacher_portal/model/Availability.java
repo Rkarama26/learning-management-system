@@ -1,5 +1,6 @@
 package com.example.Teacher_portal.model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -20,7 +21,7 @@ public class Availability {
 	private Long id;
 	
 
-    private String dayOfWeek;
+    private DayOfWeek dayOfWeek;
     
     private LocalTime startTime;
     
@@ -50,11 +51,11 @@ public class Availability {
 		this.id = id;
 	}
 
-	public String getDayOfWeek() {
+	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
 	}
 
-	public void setDayOfWeek(String dayOfWeek) {
+	public void setDayOfWeek(DayOfWeek dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
 	}
 
@@ -87,7 +88,7 @@ public class Availability {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Availability(Long id, String dayOfWeek, LocalTime startTime, LocalTime endTime, User user,
+	public Availability(Long id, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, User user,
 			LocalDateTime createdAt) {
 		super();
 		this.id = id;

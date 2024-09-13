@@ -9,6 +9,10 @@ public class TeacherPortalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TeacherPortalApplication.class, args);
 		
+		
+		
 	}
 
 }
+
+

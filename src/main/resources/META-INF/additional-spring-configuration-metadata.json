@@ -1,0 +1,7 @@
+{
+  "properties": [{
+    "name": "spring.jackson.enumeration.case-insensitive",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'spring.jackson.enumeration.case-insensitive'"
+  }]
+}

@@ -1,12 +1,11 @@
 package com.example.Teacher_portal.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,10 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.Teacher_portal.config.JwtProvider;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.model.Role;
 import com.example.Teacher_portal.model.User;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.request.LoginRequest;
@@ -56,6 +53,7 @@ public class AuthController {
 		String firstName = user.getFirstName();
 		String lastName = user.getLastName();
 		String phoneNumber = user.getPhoneNumber();
+		String role = user.getRole();
 		
 		User isEmailExist = userRepository.findByEmail(email);
 		
@@ -67,13 +65,15 @@ public class AuthController {
 		        throw new UserException("Password can not be null");
 		    }
 		
-		
 		User createdUser = new User();
 		createdUser.setPassword(passwordEncoder.encode(password));
 		createdUser.setFirstName(firstName);
 		createdUser.setLastName(lastName);
 		createdUser.setEmail(email);
 		createdUser.setPhoneNumber(phoneNumber);
+		createdUser.setRole(role);
+		// Add roles to the user
+	 
 
 		
 		User savedUser = userRepository.save(createdUser);
@@ -89,6 +89,8 @@ public class AuthController {
 		
 		return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
 	}
+	
+	
 	
 	@PostMapping("/signin")
 	public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) {
@@ -110,6 +112,7 @@ public class AuthController {
 		return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
 	}
 	
+	
 
 	private Authentication authenticate(String username, String password) {
 
@@ -123,6 +126,12 @@ public class AuthController {
 		}
 		
 		User user = userRepository.findByEmail(username);
+		
+		String role = user.getRole();
+
+	    // Create a list of authorities based on the user's role
+	    List<GrantedAuthority> authorities = new ArrayList<>();
+	    authorities.add(new SimpleGrantedAuthority(role));
 	    
 	    
 		
