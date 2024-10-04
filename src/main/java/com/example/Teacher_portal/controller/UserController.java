@@ -3,6 +3,7 @@ package com.example.Teacher_portal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.InvalidJwtTokenException;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.model.User;
 import com.example.Teacher_portal.request.ChangePasswordRequest;
 import com.example.Teacher_portal.service.UserService;
 
@@ -40,7 +41,7 @@ public class UserController {
 	try {
 		User user = userService.findUserprofileByJwt(jwt);
 	
-		return new ResponseEntity<User>(user, HttpStatus.ACCEPTED); 
+		return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
 	}catch(InvalidJwtTokenException e) {
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
@@ -73,7 +74,7 @@ public class UserController {
 	
     // change password
 	@PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestHeader("Authorization") String jwt, @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<String> changePasswordHandler(@RequestHeader("Authorization") String jwt, @RequestBody ChangePasswordRequest request) {
 		
 	
 		//System.out.println("JWT Token: " + jwt);

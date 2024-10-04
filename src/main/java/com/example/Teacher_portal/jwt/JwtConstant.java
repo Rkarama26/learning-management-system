@@ -1,4 +1,4 @@
-package com.example.Teacher_portal.config;
+package com.example.Teacher_portal.jwt;
 
 public class JwtConstant {
 	

@@ -1,9 +1,9 @@
-package com.example.Teacher_portal.model;
+package com.example.Teacher_portal.Entity;
 
 public enum Status {
 	
 	PENDING,
-	CONFIREMED,
+	CONFIRMED,
 	RESCHEDULED,
 	CANCELLED
 

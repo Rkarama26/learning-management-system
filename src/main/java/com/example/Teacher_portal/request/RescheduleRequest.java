@@ -5,15 +5,13 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Setter
 @Getter
-public class ReqAvailability {
+public class RescheduleRequest {
 
-	private DayOfWeek dayOfWeek;
-
-	private LocalDateTime startTime;
-
-	private LocalDateTime endTime;
-
+	private LocalDateTime newStartTime;
+    private LocalDateTime newEndTime;
+    private DayOfWeek dayOfWeek;
+    
 }
+

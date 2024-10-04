@@ -1,4 +1,4 @@
-package com.example.Teacher_portal.service;
+package com.example.Teacher_portal.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.Teacher_portal.model.User;
+import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.repository.UserRepository;
 
 @Service
-public class CustomUserService implements UserDetailsService {
+public class CustomUserServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -30,7 +30,7 @@ public class CustomUserService implements UserDetailsService {
 		}
 
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}

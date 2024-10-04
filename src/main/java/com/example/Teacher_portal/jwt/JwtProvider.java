@@ -1,11 +1,11 @@
-package com.example.Teacher_portal.config;
-
+package com.example.Teacher_portal.jwt;
 
 import java.util.Date;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
 import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.Claims;
@@ -27,11 +27,9 @@ public class JwtProvider {
 				.signWith(key).compact();
 		
 		return jwt;
-		
 		}
 	
-	
-	
+
 	public String getEmailFromToken(String jwt) {
 		jwt= jwt.substring(7);
 		

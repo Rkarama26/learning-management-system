@@ -1,4 +1,4 @@
-package com.example.Teacher_portal.config;
+package com.example.Teacher_portal.jwt;
 
 import java.io.IOException;
 import java.util.List;
