@@ -11,7 +11,6 @@ public class RescheduleRequest {
 
 	private LocalDateTime newStartTime;
     private LocalDateTime newEndTime;
-    private DayOfWeek dayOfWeek;
     
 }
 

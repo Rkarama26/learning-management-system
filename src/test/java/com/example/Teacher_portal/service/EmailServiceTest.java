@@ -40,7 +40,6 @@ public class EmailServiceTest {
 		testTeacher.setFirstName("Rohit");
 
 		testAppointment = new Appointments();
-		testAppointment.setDayOfWeek(DayOfWeek.MONDAY);
 		testAppointment.setStartTime(LocalDateTime.of(2024, 1, 1, 11, 0)); // 10:00 AM
 		testAppointment.setEndTime(LocalDateTime.of(2024, 1, 1, 11, 0));
 

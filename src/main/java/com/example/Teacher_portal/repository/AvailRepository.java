@@ -18,14 +18,11 @@ public interface AvailRepository extends JpaRepository<Availability, Long>{
 	List<Availability> findByUser_Id(Long userId);
 	
 	@Query("SELECT a FROM Availability a WHERE a.user = :user "
-			+ "AND a.dayOfWeek = :dayOfWeek "
-			+ "AND a.startTime = :startTime "
-			+ "AND a.endTime = :endTime")
-    Availability findByUserAndDayOfWeekAndStartTimeAndEndTime(
-    		@Param("user") User user, 
-    		@Param("dayOfWeek") DayOfWeek dayOfWeek, 
-    		@Param("startTime") LocalDateTime startTime, 
-    		@Param("endTime") LocalDateTime endTime);
-
+	        + "AND a.startTime = :startTime "
+	        + "AND a.endTime = :endTime")
+	Availability findByUserAndStartTimeAndEndTime(
+	        @Param("user") User user, 
+	        @Param("startTime") LocalDateTime startTime, 
+	        @Param("endTime") LocalDateTime endTime);
 
 }

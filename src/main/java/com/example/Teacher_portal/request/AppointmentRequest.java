@@ -11,7 +11,6 @@ public class AppointmentRequest {
 
     private Long studentId;
     private Long teacherId;
-    private DayOfWeek dayOfWeek;
 	private LocalDateTime startTime;
     private LocalDateTime endTime;
     

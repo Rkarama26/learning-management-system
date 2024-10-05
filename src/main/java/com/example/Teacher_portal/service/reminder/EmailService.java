@@ -22,7 +22,7 @@ public class EmailService {
 		String to = teacher.getEmail();
 		String subject = "Appointment Request";
 		String text = "Dear " + teacher.getFirstName() + ",\n\n"
-				+ "You have a new appointment request from a student on " + appointment.getDayOfWeek() + " from "
+				+ "You have a new appointment request from a student on "  + " from "
 				+ appointment.getStartTime() + "hr to " + appointment.getEndTime() + "hr.\n"
 				+ "Please check your appointments.\n\n" + "Best regards,\nAppointment System";
 

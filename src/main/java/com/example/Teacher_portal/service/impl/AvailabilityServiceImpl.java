@@ -1,5 +1,7 @@
 package com.example.Teacher_portal.service.impl;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.Teacher_portal.Entity.Availability;
 import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.AvailabilityNotFoundException;
+import com.example.Teacher_portal.exception.EndTimeBeforeStartTimeException;
 import com.example.Teacher_portal.exception.SlotAlreadyPresentException;
+import com.example.Teacher_portal.exception.StartTimeBeforeCurrentTimeException;
 import com.example.Teacher_portal.repository.AvailRepository;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.request.ReqAvailability;
@@ -25,19 +29,29 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 	private AvailRepository availRepository;
 
 	// create
-	public Availability createUserAvailability(Long userId, Availability available) {
+	public Availability createUserAvailability(Long userId, Availability available) throws Exception {
 		User user = userRepository.findById(userId).orElseThrow();
-		Availability existingAvailability = availRepository.findByUserAndDayOfWeekAndStartTimeAndEndTime(user,
-				available.getDayOfWeek(), available.getStartTime(), available.getEndTime());
+		Availability existingAvailability = availRepository.findByUserAndStartTimeAndEndTime(user,
+				 available.getStartTime(), available.getEndTime());
 
 		if (existingAvailability != null) {
-            throw new SlotAlreadyPresentException("Slot already present for teacher " + user.getFirstName() + " on " + available.getDayOfWeek() + " at " + available.getStartTime());
+			throw new SlotAlreadyPresentException("Slot already present for teacher " + user.getFirstName() + " on "
+					 + " at " + available.getStartTime());
 
 		} else {
 
+			// Validate start time and end time
+			Instant currentTime = Instant.now();
+			if (available.getStartTime().atZone(ZoneOffset.systemDefault()).toInstant().isBefore(currentTime)) {
+				throw new StartTimeBeforeCurrentTimeException("Start time must be after the current time");
+			}
+			if (available.getEndTime().atZone(ZoneOffset.systemDefault()).toInstant()
+					.isBefore(available.getStartTime().atZone(ZoneOffset.systemDefault()).toInstant())) {
+				throw new EndTimeBeforeStartTimeException("End time must be after the start time");
+			}
+
 			Availability availability = new Availability();
 			availability.setUser(userRepository.findById(userId).orElseThrow());
-			availability.setDayOfWeek(available.getDayOfWeek());
 			availability.setEndTime(available.getEndTime());
 			availability.setStartTime(available.getStartTime());
 			return availRepository.save(availability);
@@ -68,7 +82,6 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 			Availability availability = availRepository.findById(id)
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Availability not found"));
 
-			availability.setDayOfWeek(req.getDayOfWeek());
 			availability.setStartTime(req.getStartTime());
 			availability.setEndTime(req.getEndTime());
 

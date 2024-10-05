@@ -1,7 +1,5 @@
 package com.example.Teacher_portal.service.impl;
 
-import java.time.DayOfWeek;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -49,26 +47,26 @@ public class AppointmentServiceImpl implements AppointmentService {
 		User teacher = userRepository.findById(request.getTeacherId()).orElseThrow();
 
 		// Retrieve teacher availability
-		boolean isTeacherAvailable = isTeacherAvailable(teacher, request.getDayOfWeek(), request.getStartTime(),
-				request.getEndTime());
-		if (!isTeacherAvailable) {
+		Availability availability = isTeacherAvailable(teacher, request.getStartTime(), request.getEndTime());
+		if (availability == null) {
 			throw new NoTeacherFoundException("No teacher available during the specified time range.");
 		}
-		Appointments existingAppointment = appointmentRepository.findByTeacherAndDayOfWeekAndStartTimeAndEndTime(
-				teacher, request.getDayOfWeek(), request.getStartTime(), request.getEndTime());
+
+		Appointments existingAppointment = appointmentRepository.findByTeacherAndStartTimeAndEndTime(teacher,
+				request.getStartTime(), request.getEndTime());
 		if (existingAppointment != null) {
 			throw new SlotAlreadyBookedException("Slot already booked for teacher " + student.getFirstName() + " on "
-					+ request.getDayOfWeek() + " at " + request.getStartTime());
+					+ " at " + request.getStartTime());
 		}
 
-		// Create new appointment
+		// Create new appointment  
 		Appointments appointment = new Appointments();
 		appointment.setStudent(student);
 		appointment.setTeacher(teacher);
 		appointment.setStartTime(request.getStartTime());
 		appointment.setEndTime(request.getEndTime());
-		appointment.setDayOfWeek(request.getDayOfWeek());
 		appointment.setStatus(Status.PENDING);
+		appointment.setAvailability(availability);
 
 		Appointments savedAppointment = appointmentRepository.save(appointment);
 
@@ -85,34 +83,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	// isTeacherAvailable
-	private boolean isTeacherAvailable(User teacher, DayOfWeek dayOfWeek, LocalDateTime startTime,
-			LocalDateTime endTime) {
+	private Availability isTeacherAvailable(User teacher, LocalDateTime startTime, LocalDateTime endTime) {
 
 		List<Availability> availabilities = teacher.getAvailability();
 
-		// the teacher has any availability at all
 		if (availabilities == null || availabilities.isEmpty()) {
-			return false;
+			return null;
 		}
 
-		// specified day of week
-		Availability availability = availabilities.stream().filter(a -> a.getDayOfWeek() == dayOfWeek).findFirst()
-				.orElse(null);
+		for (Availability availability : availabilities) {
+			LocalDateTime availabilityStartTime = availability.getStartTime();
+			LocalDateTime availabilityEndTime = availability.getEndTime();
 
-		if (availability == null) {
-			return false;
+			if (startTime.isAfter(availabilityStartTime) && endTime.isBefore(availabilityEndTime)) {
+				return availability;
+			}
 		}
 
-		// specified time range
-		LocalDateTime availabilityStartTime = availability.getStartTime();
-		LocalDateTime availabilityEndTime = availability.getEndTime();
-
-		if (!(startTime.isAfter(availabilityStartTime) && endTime.isBefore(availabilityEndTime))) {
-
-			return false;
-		}
-
-		return true;
+		return null;
 	}
 
 	// confirm
@@ -124,25 +112,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 		appointment.setStatus(Status.CONFIRMED);
 
-		User teacher = appointment.getTeacher();
 		Availability availability = appointment.getAvailability();
 
 		if (availability != null) {
-			// Remove availability from teacher's profile
-			List<Availability> teacherAvailabilities = teacher.getAvailability();
-			for (Availability a : teacherAvailabilities) {
-				if (a.getId().equals(availability.getId())) {
-					teacherAvailabilities.remove(a);
-					break;
-				}
-			}
-
 			availRepository.deleteById(availability.getId());
+			
+			appointment.setAvailability(null);
 		}
-		// jobScheduler.scheduleJob(appointment);
 
 		return appointmentRepository.save(appointment);
-
 	}
 
 	// decline
@@ -157,16 +135,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Appointments rescheduleAppointment(Long appointmentId, RescheduleRequest request) {
 		Appointments appointment = appointmentRepository.findById(appointmentId).orElseThrow();
 
-		if (isTeacherAvailable(appointment.getTeacher(), request.getDayOfWeek(), request.getNewStartTime(),
-				request.getNewEndTime())) {
+		Availability newAvailability = isTeacherAvailable(appointment.getTeacher(), request.getNewStartTime(),
+				request.getNewEndTime());
 
+		if (newAvailability != null) {
 			appointment.setStartTime(request.getNewStartTime());
 			appointment.setEndTime(request.getNewEndTime());
-			appointment.setDayOfWeek(request.getDayOfWeek());
+			appointment.setAvailability(newAvailability);
 			return appointmentRepository.save(appointment);
-
 		} else {
-
 			throw new NoTeacherFoundException("Teacher is not available during the new time range");
 		}
 	}
@@ -192,7 +169,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentRepository.findByUserId(userId);
 	}
 
-	// get 1 hour before 
+	// get 1 hour before
 	@Override
 	public List<Appointments> getAppointmentsWithinNextHour(LocalDateTime currentTime) {
 		// Fetch all appointments

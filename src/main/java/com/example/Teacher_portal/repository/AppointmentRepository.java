@@ -20,13 +20,12 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Long>
 	List<Appointments> findByUserId(@Param("userId")Long userId);
 	
 
-    @Query("SELECT a FROM Appointments a WHERE a.teacher = :teacher AND"
-    		+ " a.dayOfWeek = :dayOfWeek AND "
-    		+ "a.startTime = :startTime AND "
-    		+ "a.endTime = :endTime")
-    Appointments findByTeacherAndDayOfWeekAndStartTimeAndEndTime(@Param("teacher") User teacher, 
-    		@Param("dayOfWeek") DayOfWeek dayOfWeek, 
-    		@Param("startTime") LocalDateTime startTime, 
-    		@Param("endTime") LocalDateTime endTime);
+    @Query("SELECT a FROM Appointments a WHERE a.teacher = :teacher "
+            + "AND a.startTime = :startTime "
+            + "AND a.endTime = :endTime")
+    Appointments findByTeacherAndStartTimeAndEndTime(
+            @Param("teacher") User teacher, 
+            @Param("startTime") LocalDateTime startTime, 
+            @Param("endTime") LocalDateTime endTime);
 
 }

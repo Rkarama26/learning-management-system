@@ -33,15 +33,13 @@ public class Availability {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private DayOfWeek dayOfWeek;
-
-	@Column(unique = true)
+	@Column
 	private LocalDateTime startTime;
 	
-	@Column(unique = true)
+	@Column
 	private LocalDateTime endTime;
 
-	@Column(updatable = false)
+	@Column
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
@@ -50,9 +48,6 @@ public class Availability {
 	@JoinColumn(name = "users_id")
 	private User user;
 
-	@JsonIgnore
-	@OneToOne
-	@JoinColumn(name = "appointment_id")
-	private Appointments appointment;
+
 
 }

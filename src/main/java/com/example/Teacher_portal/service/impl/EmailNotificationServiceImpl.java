@@ -24,7 +24,7 @@ public class EmailNotificationServiceImpl implements NotificationService {
 		String subject = "Reminder: Upcoming Appointment";
 
 		String body = "This is a reminder that you have an upcoming appointment scheduled on "
-				+ appointment.getDayOfWeek() + " at " + appointment.getStartTime();
+				 + " at " + appointment.getStartTime();
 
 		emailService.sendEmail(teacherEmail, subject, body);
 		emailService.sendEmail(studentEmail, subject, body);
