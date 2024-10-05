@@ -48,9 +48,7 @@ public class AvailabilityController {
 	public ResponseEntity<Availability> createUserAvailability(@RequestHeader("Authorization") String jwt,
 			@RequestBody Availability available) throws Exception {
 		
-		User user = userService.findUserprofileByJwt(jwt);
-		Long userId = user.getId();
-		Availability availability = availabilityService.createUserAvailability(userId, available);
+		Availability availability = availabilityService.createUserAvailability(jwt, available);
 		return ResponseEntity.ok(availability);
 	}
 	

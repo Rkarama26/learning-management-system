@@ -19,6 +19,7 @@ import com.example.Teacher_portal.repository.AvailRepository;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.request.ReqAvailability;
 import com.example.Teacher_portal.service.AvailabilityService;
+import com.example.Teacher_portal.service.UserService;
 
 @Service
 public class AvailabilityServiceImpl implements AvailabilityService {
@@ -27,10 +28,15 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 	private UserRepository userRepository;
 	@Autowired
 	private AvailRepository availRepository;
+	@Autowired
+	private UserService userService;
 
 	// create
-	public Availability createUserAvailability(Long userId, Availability available) throws Exception {
-		User user = userRepository.findById(userId).orElseThrow();
+	public Availability createUserAvailability(String jwt, Availability available) throws Exception {
+		
+		User user = userService.findUserprofileByJwt(jwt);
+		Long userId = user.getId();
+		
 		Availability existingAvailability = availRepository.findByUserAndStartTimeAndEndTime(user,
 				 available.getStartTime(), available.getEndTime());
 
@@ -51,9 +57,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 			}
 
 			Availability availability = new Availability();
-			availability.setUser(userRepository.findById(userId).orElseThrow());
+			availability.setUser(user);
 			availability.setEndTime(available.getEndTime());
 			availability.setStartTime(available.getStartTime());
+			
 			return availRepository.save(availability);
 		}
 	}

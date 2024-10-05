@@ -1,6 +1,6 @@
 package com.example.Teacher_portal.Entity;
 
-public enum Status {
+public enum AppointmentStatus {
 	
 	PENDING,
 	CONFIRMED,

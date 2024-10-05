@@ -38,6 +38,9 @@ public class Availability {
 	
 	@Column
 	private LocalDateTime endTime;
+	
+	@Column(nullable = false)
+	private boolean isBooked = false;
 
 	@Column
 	@CreationTimestamp

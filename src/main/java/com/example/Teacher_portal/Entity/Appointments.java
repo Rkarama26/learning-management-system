@@ -1,9 +1,8 @@
 package com.example.Teacher_portal.Entity;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -49,11 +47,14 @@ public class Appointments {
 
 	private LocalDateTime endTime;
 
-	private Status status;
+	private AppointmentStatus status;
 
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "availability_id", referencedColumnName = "id") // Foreign key
     private Availability availability;
+	
+	@CreationTimestamp
+	private LocalDateTime bookingTime;
 
 }

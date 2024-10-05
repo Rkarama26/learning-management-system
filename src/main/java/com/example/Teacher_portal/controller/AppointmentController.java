@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.Teacher_portal.Entity.Appointments;
 import com.example.Teacher_portal.Entity.User;
+import com.example.Teacher_portal.exception.ResourceNotFoundException;
 import com.example.Teacher_portal.exception.UserException;
 import com.example.Teacher_portal.jwt.JwtProvider;
 import com.example.Teacher_portal.request.AppointmentRequest;
@@ -26,15 +27,15 @@ public class AppointmentController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/book")
+	@PostMapping("/book/{availabilityId}")
 	public ResponseEntity<Appointments> bookAppointmentHandler(@RequestHeader("Authorization") String jwt,
-			@RequestBody AppointmentRequest request) throws BadRequestException {
-		return ResponseEntity.ok(appointmentService.createAppointment(request));
+		@PathVariable Long availabilityId) throws BadRequestException, UserException, ResourceNotFoundException {
+		return ResponseEntity.ok(appointmentService.createAppointment(availabilityId, jwt));
 	}
 
 	@PatchMapping("/{appointmentId}/confirme")
 	public ResponseEntity<Appointments> confirmAppointment(@RequestHeader("Authorization") String jwt,
-			@PathVariable Long appointmentId) {
+			@PathVariable Long appointmentId) throws ResourceNotFoundException {
 		return ResponseEntity.ok(appointmentService.confirmAppointment(appointmentId));
 	}
 
@@ -46,10 +47,10 @@ public class AppointmentController {
 
 	@PutMapping("/{appointmentId}/reschedule")
 	public ResponseEntity<Appointments> rescheduleAppointment(@RequestHeader("Authorization") String jwt,
-			@PathVariable Long appointmentId, @RequestBody RescheduleRequest request) {
-		System.out.println(request);
+			@PathVariable Long appointmentId, Long newAvailabilitySlotId) throws ResourceNotFoundException {
+		
 
-		return ResponseEntity.ok(appointmentService.rescheduleAppointment(appointmentId, request));
+		return ResponseEntity.ok(appointmentService.rescheduleAppointment(appointmentId, newAvailabilitySlotId));
 
 	}
 

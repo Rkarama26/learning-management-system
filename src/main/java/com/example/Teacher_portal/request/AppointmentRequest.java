@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class AppointmentRequest {
 
-    private Long studentId;
     private Long teacherId;
 	private LocalDateTime startTime;
     private LocalDateTime endTime;
