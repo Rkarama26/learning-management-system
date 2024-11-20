@@ -30,7 +30,8 @@ public class AppConfig {
 		// session Less
 				sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**").permitAll()
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**",  "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**", 
+						"/swagger-ui.html", "localhost:8080").permitAll()
 						// .requestMatchers("/api/availability").hasRole("TEACHER")
 
 						.anyRequest().authenticated())
