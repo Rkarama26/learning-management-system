@@ -2,6 +2,7 @@ package com.example.Teacher_portal.service.impl;
 
 import java.time.LocalDateTime;
 
+
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ import com.example.Teacher_portal.repository.AvailRepository;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.service.AppointmentService;
 import com.example.Teacher_portal.service.UserService;
-import com.example.Teacher_portal.service.reminder.EmailService;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -37,9 +37,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private AvailRepository availRepository;
-
-	@Autowired
-	private EmailService emailService;
 
 	@Autowired
 	private UserService userService;
@@ -73,18 +70,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 		Appointments savedAppointment = appointmentRepository.save(appointment);
 
-		// Send email reminder to the teacher
-		emailService.sendAppointmentReminder(teacher, savedAppointment);
-		// emailService.sendEmail("rv262003@gmail.com", "subject", "msg");
+	
 		return savedAppointment;
 	}
 
-	// Reminders
-	@Async
-	public void sendReminderToTeacher(User teacher, Appointments appointment) {
-		emailService.sendAppointmentReminder(teacher, appointment);
-	}
-
+	
 	// confirm
 	@Transactional
 	public Appointments confirmAppointment(Long appointmentId) throws ResourceNotFoundException {

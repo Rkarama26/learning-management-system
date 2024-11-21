@@ -33,16 +33,16 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
 	// create
 	public Availability createUserAvailability(String jwt, Availability available) throws Exception {
-		
+
 		User user = userService.findUserprofileByJwt(jwt);
 		Long userId = user.getId();
-		
+
 		Availability existingAvailability = availRepository.findByUserAndStartTimeAndEndTime(user,
-				 available.getStartTime(), available.getEndTime());
+				available.getStartTime(), available.getEndTime());
 
 		if (existingAvailability != null) {
 			throw new SlotAlreadyPresentException("Slot already present for teacher " + user.getFirstName() + " on "
-					 + " at " + available.getStartTime());
+					+ " at " + available.getStartTime());
 
 		} else {
 
@@ -60,7 +60,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 			availability.setUser(user);
 			availability.setEndTime(available.getEndTime());
 			availability.setStartTime(available.getStartTime());
-			
+
 			return availRepository.save(availability);
 		}
 	}
@@ -87,13 +87,19 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 	public Availability updateAvailability(Long id, ReqAvailability req) {
 		{
 			Availability availability = availRepository.findById(id)
-					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Availability not found"));
+					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Slot Available"));
 
 			availability.setStartTime(req.getStartTime());
 			availability.setEndTime(req.getEndTime());
 
 			return availRepository.save(availability);
 		}
+	}
+
+	@Override
+	public List<Availability> getAllAvailableSlots() {
+		List<Availability> available = availRepository.findAll();
+		return available;
 	}
 
 }

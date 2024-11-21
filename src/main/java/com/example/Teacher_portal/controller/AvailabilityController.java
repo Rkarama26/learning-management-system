@@ -65,6 +65,13 @@ public class AvailabilityController {
         Availability updatedAvailability = availabilityService.updateAvailability(id, req);
         return ResponseEntity.ok(updatedAvailability);
     }
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<Availability>> getAllAvailableSlots(@RequestHeader("Authorization") String jwt){
+		
+		List<Availability> available = availabilityService.getAllAvailableSlots();
+				return ResponseEntity.ok(available);
+	}
     
 	
 }

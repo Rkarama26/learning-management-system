@@ -21,4 +21,6 @@ public interface AvailabilityService {
 	// update
 	public Availability updateAvailability(Long id, ReqAvailability req);
 
+	public List<Availability> getAllAvailableSlots();
+
 }
