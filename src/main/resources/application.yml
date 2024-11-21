@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: Teacher_portal
+
+  server:
+    port: 8080
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    # show-sql: true
+    # properties:
+    #   hibernate:
+    #     format_sql: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/stportal
+    username: root
+    password: MySQL@2003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: karma.rohit026@gmail.com
+    # password: terc pvdi yptv oznt
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+logging:
+  level:
+    org.springframework: DEBUG
+    # org.springframework.security: DEBUG
+
+# Uncomment the following for case-insensitive enums (if required)
+# spring:
+#   jackson:
+#     enumeration:
+#       case-insensitive: true
