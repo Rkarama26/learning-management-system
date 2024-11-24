@@ -28,6 +28,7 @@ import com.example.Teacher_portal.service.UserService;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
+	
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
@@ -55,6 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		User student = userService.findUserprofileByJwt(jwt);
 		User teacher = slot.getUser();
+
 
 		// Create new appointment
 		Appointments appointment = new Appointments();

@@ -23,6 +23,7 @@ import com.example.Teacher_portal.service.UserService;
 
 @Service
 public class AvailabilityServiceImpl implements AvailabilityService {
+	
 
 	@Autowired
 	private UserRepository userRepository;

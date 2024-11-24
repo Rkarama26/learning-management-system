@@ -2,9 +2,12 @@ package com.example.Teacher_portal.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+
 import java.util.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,41 +26,53 @@ import jakarta.servlet.http.HttpServletRequest;
 @EnableWebSecurity
 public class AppConfig {
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.
-		// session Less
-				sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.
+                // session Less
+                        sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**",  "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**", 
-						"/swagger-ui.html", "localhost:8080").permitAll()
-						// .requestMatchers("/api/availability").hasRole("TEACHER")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/home/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/actuator/**",
+                                "/swagger-ui.html",
+                                "/oauth2/**")
+                        .permitAll()
+                        // .requestMatchers("/api/availability").hasRole("TEACHER")
 
-						.anyRequest().authenticated())
+                        .anyRequest().authenticated())
 
-				.addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
-				.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/home")
+                        .failureUrl("/login?error=true")
+                )
 
-					@Override
-					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
 
-						CorsConfiguration cfg = new CorsConfiguration();
-						cfg.setAllowedOrigins(null);
-						cfg.setAllowedMethods(Collections.singletonList("*"));
-						cfg.setAllowCredentials(true);
-						cfg.setAllowedHeaders(Collections.singletonList("*"));
-						cfg.setExposedHeaders(Arrays.asList("Authorization"));
-						cfg.setMaxAge(3600L);
-						return cfg;
-					}
-				})).httpBasic(withDefaults()).formLogin(withDefaults());
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
-		return http.build();
-	}
+                        CorsConfiguration cfg = new CorsConfiguration();
+                        cfg.setAllowedOrigins(null);
+                        cfg.setAllowedMethods(Collections.singletonList("*"));
+                        cfg.setAllowCredentials(true);
+                        cfg.setAllowedHeaders(Collections.singletonList("*"));
+                        cfg.setExposedHeaders(Arrays.asList("Authorization"));
+                        cfg.setMaxAge(3600L);
+                        return cfg;
+                    }
+                })).httpBasic(withDefaults()).formLogin(withDefaults());
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

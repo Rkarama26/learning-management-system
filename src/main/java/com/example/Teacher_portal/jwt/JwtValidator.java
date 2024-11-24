@@ -27,13 +27,20 @@ public class JwtValidator extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
+
+		String path = request.getRequestURI();
+		if(path.startsWith("/oauth2")){
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		String jwt = request.getHeader(JwtConstant.JWT_HEADER);
-		
+
 		if(jwt != null) {
 			jwt = jwt.substring(7);
-			
+
 try {
+	
 				
 				SecretKey key= Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 				

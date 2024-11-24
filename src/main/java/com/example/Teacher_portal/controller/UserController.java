@@ -39,6 +39,7 @@ public class UserController {
 		System.out.println("JWT Token: " + jwt);
 		
 	try {
+		
 		User user = userService.findUserprofileByJwt(jwt);
 	
 		return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);

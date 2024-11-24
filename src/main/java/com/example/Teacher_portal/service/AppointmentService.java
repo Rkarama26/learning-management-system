@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.coyote.BadRequestException;
+
 import com.example.Teacher_portal.Entity.Appointments;
 import com.example.Teacher_portal.exception.ResourceNotFoundException;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.request.AppointmentRequest;
-import com.example.Teacher_portal.request.RescheduleRequest;
 
 public interface AppointmentService {
 

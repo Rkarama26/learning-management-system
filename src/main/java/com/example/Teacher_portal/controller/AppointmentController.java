@@ -26,6 +26,7 @@ public class AppointmentController {
 
 	@Autowired
 	private UserService userService;
+	
 
 	@PostMapping("/book/{availabilityId}")
 	public ResponseEntity<Appointments> bookAppointmentHandler(@RequestHeader("Authorization") String jwt,

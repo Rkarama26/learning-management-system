@@ -33,6 +33,7 @@ public class AvailabilityController {
 	private UserService userService;
 
 	
+	
 	@GetMapping("/user")
 	public ResponseEntity<List<Availability>> getUserAvailability(@RequestHeader("Authorization") String jwt) throws UserException {
 		

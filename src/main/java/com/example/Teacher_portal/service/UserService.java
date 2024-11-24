@@ -8,6 +8,7 @@ import com.example.Teacher_portal.exception.UserException;
 
 public interface UserService {
 	
+	
 	public User findUserprofileByJwt(String jwt) throws UserException;
 	
 	public User updateUserProfile(String jwt, User updatedUser) throws UserException;

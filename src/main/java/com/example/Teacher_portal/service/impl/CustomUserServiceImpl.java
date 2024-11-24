@@ -17,6 +17,7 @@ import com.example.Teacher_portal.repository.UserRepository;
 
 @Service
 public class CustomUserServiceImpl implements UserDetailsService {
+	
 
 	@Autowired
 	private UserRepository userRepository;

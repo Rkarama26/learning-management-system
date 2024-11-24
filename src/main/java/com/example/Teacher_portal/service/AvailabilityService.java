@@ -8,6 +8,7 @@ import com.example.Teacher_portal.request.ReqAvailability;
 
 
 public interface AvailabilityService {
+	
 
 	// create
 	public Availability createUserAvailability(String jwt, Availability available) throws Exception;

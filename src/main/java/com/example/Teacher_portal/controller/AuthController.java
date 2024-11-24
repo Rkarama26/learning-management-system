@@ -1,6 +1,7 @@
 package com.example.Teacher_portal.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.lang3.EnumUtils;
@@ -44,6 +45,7 @@ public class AuthController {
 	@Autowired
 	private CustomUserServiceImpl customUserService;
 
+	
 	@PostMapping("/signup")
 	public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
 

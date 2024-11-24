@@ -25,6 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Appointments {
+	
 
 	public Appointments(String string) {
 	}
