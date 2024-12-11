@@ -1,7 +1,7 @@
 package com.example.Teacher_portal.request;
 
 
-public class ReqRefreshToken {
+public class RefreshTokenReq {
 
     private String refreshToken;
 

@@ -14,12 +14,13 @@ spring:
             client-secret: nSryi6e9dRiYiDU5L1BNK1q1uKfBtmca
             authorization-grant-type: GOYkoLXXR30lyTrvisbS52A0AX8k5JojQ
             redirect-uri: "https://api.zoom/classroom"
+            #scope: user:read
         provider:
           zoom:
             authorization-uri: https://zoom.us/oauth/authorize
             token-uri: https://zoom.us/oauth/token
             user-info-uri: https://api.zoom.us/v2/users/me
-          
+
 
   jpa:
     hibernate:
@@ -48,7 +49,7 @@ spring:
             enable: true
             required: true
 
-   
+
 
 
 
@@ -56,10 +57,10 @@ logging:
   level:
     org.springframework: DEBUG
     # org.springframework.security: DEBUG
-    
-    
-    
-    
+
+
+
+
 
 # Uncomment the following for case-insensitive enums (if required)
 # spring:

@@ -1,6 +1,6 @@
 package com.example.Teacher_portal.controller;
 
-import com.example.Teacher_portal.request.ReqRefreshToken;
+import com.example.Teacher_portal.request.RefreshTokenReq;
 import com.example.Teacher_portal.response.OAuthTokenResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +56,7 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/refresh_token")
-    public ResponseEntity<OAuthTokenResponse> refreshAccessToken(@RequestBody ReqRefreshToken request) {
+    public ResponseEntity<OAuthTokenResponse> refreshAccessToken(@RequestBody RefreshTokenReq request) {
 
         String refreshToken = request.getRefreshToken();
 
@@ -67,7 +66,7 @@ public class OAuth2Controller {
         }
 
         try {
-            ResponseEntity<OAuthTokenResponse> tokenResponse = oAuth2Service.refreshAccessToken(refreshToken);
+            ResponseEntity<OAuthTokenResponse> tokenResponse = oAuth2Service.refreshAccessToken();
             return tokenResponse; // Return the full ResponseEntity from the service
         } catch (RuntimeException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

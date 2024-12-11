@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.InvalidJwtTokenException;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.request.ChangePasswordRequest;
+import com.example.Teacher_portal.request.ChangePasswordReq;
 import com.example.Teacher_portal.service.UserService;
 
 @RestController
@@ -75,7 +74,7 @@ public class UserController {
 	
     // change password
 	@PostMapping("/changePassword")
-    public ResponseEntity<String> changePasswordHandler(@RequestHeader("Authorization") String jwt, @RequestBody ChangePasswordRequest request) {
+    public ResponseEntity<String> changePasswordHandler(@RequestHeader("Authorization") String jwt, @RequestBody ChangePasswordReq request) {
 		
 	
 		//System.out.println("JWT Token: " + jwt);

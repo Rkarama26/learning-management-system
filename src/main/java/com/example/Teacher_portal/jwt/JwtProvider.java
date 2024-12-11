@@ -28,15 +28,15 @@ public class JwtProvider {
 		
 		return jwt;
 		}
-	
+
 
 	public String getEmailFromToken(String jwt) {
-		jwt= jwt.substring(7);
-		
+		jwt = jwt.substring(7);
+
 		Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-		
-		String email= String.valueOf(claims.get("email"));
-		
+
+		String email = String.valueOf(claims.get("email"));
+
 		return email;
 				
 	}

@@ -22,6 +22,10 @@ import java.util.Map;
 @Service
 public class OAuth2ServiceImpl implements OAuth2Service {
 
+    @Autowired
+    private InMemoryTokenStore tokenStore;
+
+
 	
 /*
 @Value("${security.oauth2.client.registration.zoom.client-id}")
@@ -86,6 +90,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
             );
 
             // Return the full ResponseEntity, including headers, body, and status
+            tokenStore.saveToken(response.getBody());
             return response;
 
         } catch (Exception e) {
@@ -95,7 +100,12 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     //Refresh access token
     @Override
-    public ResponseEntity<OAuthTokenResponse> refreshAccessToken(String refreshToken) throws JsonProcessingException {
+    public ResponseEntity<OAuthTokenResponse> refreshAccessToken() throws JsonProcessingException {
+
+        String refreshToken = tokenStore.getRefreshToken();
+//        String accToken = tokenStore.getAccessToken();
+//        System.out.println("refToken: " + refreshToken);
+//        System.out.println("accessToken: " + accToken);
 
         String url = CLconstants.TOKEN_ENDPOINT;
 
@@ -121,7 +131,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
                 //System.out.println("Access Token: " + tokenResponse.getAccessToken());
                 //System.out.println("Refresh Token: " + tokenResponse.getRefreshToken());
-
+                tokenStore.saveToken(response.getBody());
                 return response;
             } else {
                 throw new RuntimeException("Failed to refresh token: response body null");

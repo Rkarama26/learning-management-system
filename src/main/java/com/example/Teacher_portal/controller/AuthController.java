@@ -33,6 +33,7 @@ import com.example.Teacher_portal.service.impl.CustomUserServiceImpl;
 @RequestMapping("/home")
 public class AuthController {
 
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 

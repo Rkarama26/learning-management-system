@@ -12,5 +12,5 @@ public interface OAuth2Service {
 
     ResponseEntity<OAuthTokenResponse> exchangeAuthorizationCodeForToken(String authorizationCode);
 
-    ResponseEntity<OAuthTokenResponse> refreshAccessToken(String refreshToken) throws JsonProcessingException;
+    ResponseEntity<OAuthTokenResponse> refreshAccessToken() throws JsonProcessingException;
 }

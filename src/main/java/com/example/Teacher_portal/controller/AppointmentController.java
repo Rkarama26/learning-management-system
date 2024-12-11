@@ -11,9 +11,6 @@ import com.example.Teacher_portal.Entity.Appointments;
 import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.ResourceNotFoundException;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.jwt.JwtProvider;
-import com.example.Teacher_portal.request.AppointmentRequest;
-import com.example.Teacher_portal.request.RescheduleRequest;
 import com.example.Teacher_portal.service.AppointmentService;
 import com.example.Teacher_portal.service.UserService;
 

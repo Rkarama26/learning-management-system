@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Teacher_portal.Entity.Availability;
 import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.UserException;
-import com.example.Teacher_portal.request.ReqAvailability;
+import com.example.Teacher_portal.request.AvailabilityReq;
 import com.example.Teacher_portal.service.AvailabilityService;
 import com.example.Teacher_portal.service.UserService;
 
@@ -62,7 +62,7 @@ public class AvailabilityController {
 	
 	
 	@PutMapping("/update/{id}")
-    public ResponseEntity<Availability> updateAvailability(@RequestHeader("Authorization") String jwt, @PathVariable Long id, @RequestBody ReqAvailability req) {
+    public ResponseEntity<Availability> updateAvailability(@RequestHeader("Authorization") String jwt, @PathVariable Long id, @RequestBody AvailabilityReq req) {
         Availability updatedAvailability = availabilityService.updateAvailability(id, req);
         return ResponseEntity.ok(updatedAvailability);
     }
