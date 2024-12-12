@@ -103,9 +103,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     public ResponseEntity<OAuthTokenResponse> refreshAccessToken() throws JsonProcessingException {
 
         String refreshToken = tokenStore.getRefreshToken();
-//        String accToken = tokenStore.getAccessToken();
-//        System.out.println("refToken: " + refreshToken);
-//        System.out.println("accessToken: " + accToken);
+        String accToken = tokenStore.getAccessToken();
+        System.out.println("refToken: " + refreshToken);
+        System.out.println("accessToken: " + accToken);
 
         String url = CLconstants.TOKEN_ENDPOINT;
 

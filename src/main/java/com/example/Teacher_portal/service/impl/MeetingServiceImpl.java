@@ -2,6 +2,7 @@ package com.example.Teacher_portal.service.impl;
 
 import com.example.Teacher_portal.request.CreateMeetingReq;
 import com.example.Teacher_portal.response.CreateMeetingRes;
+import com.example.Teacher_portal.response.ListMeetingsResponse;
 import com.example.Teacher_portal.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -21,6 +22,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private InMemoryTokenStore tokenStore;
 
+    private static final String ZOOM_API_URL = "https://api.zoom.us/v2/users/me/meetings";
 
 
     @Override
@@ -32,7 +34,7 @@ public class MeetingServiceImpl implements MeetingService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(tokenStore.getAccessToken());
-        System.out.println("accToken: "+ tokenStore.getAccessToken());
+        System.out.println("accToken: " + tokenStore.getAccessToken());
 
         // request body
         HttpEntity<CreateMeetingReq> entity = new HttpEntity<>(request, headers);
@@ -54,6 +56,44 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("Error while calling zoom API: " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public ListMeetingsResponse listMeetings(int pageSize, int pageNumber) {
+        String url = String.format(ZOOM_API_URL) +
+                "?type=scheduled&page_size=" + pageSize + "&page_number=" + pageNumber;
+
+        // If a next_page_token is available, add it to the URL
+        String nextPageToken = tokenStore.getNextPageToken();
+        if (nextPageToken != null) {
+            url += "&next_page_token=" + nextPageToken;
+        }
+
+        // Headers with authorization token
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(tokenStore.getAccessToken());
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<ListMeetingsResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    ListMeetingsResponse.class
+            );
+
+            ListMeetingsResponse body = response.getBody();
+
+            // Store next page token in memory for future requests
+            if (body != null) {
+                String newNextPageToken = body.getNextPageToken();
+                tokenStore.setNextPageToken(newNextPageToken);
+            }
+
+            return body;
+        } catch (Exception e) {
+            throw new RuntimeException("Error while calling Zoom API: " + e.getMessage());
+        }
     }
 
 

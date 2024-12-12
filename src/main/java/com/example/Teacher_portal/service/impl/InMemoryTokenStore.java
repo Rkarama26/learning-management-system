@@ -4,6 +4,8 @@ import com.example.Teacher_portal.response.OAuthTokenResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class InMemoryTokenStore {
@@ -11,6 +13,10 @@ public class InMemoryTokenStore {
 
     private OAuthTokenResponse tokenResponse; // Store the entire token response
     private Instant tokenExpiryTime; // Tracks when the access token expires
+    private static final int NEXT_PAGE_TOKEN_EXPIRATION_MINUTES = 15;
+    private String nextPageToken;
+    private LocalDateTime nextPageTokenTimestamp;
+
 
     // Save the token response and calculate expiry time
     public void saveToken(OAuthTokenResponse tokenResponse) {
@@ -53,5 +59,26 @@ public class InMemoryTokenStore {
         tokenResponse = null;
         tokenExpiryTime = null;
     }
+    public String getNextPageToken() {
+        if (nextPageToken != null && isTokenExpired()) {
+            // Token expired, return null to force a refresh
+            return null;
+        }
+        return nextPageToken;
+    }
+
+    public void setNextPageToken(String nextPageToken) {
+        this.nextPageToken = nextPageToken;
+        this.nextPageTokenTimestamp = LocalDateTime.now();
+    }
+
+    private boolean isTokenExpired() {
+        if (nextPageTokenTimestamp == null) {
+            return true; // No token set yet
+        }
+        long minutesElapsed = ChronoUnit.MINUTES.between(nextPageTokenTimestamp, LocalDateTime.now());
+        return minutesElapsed > NEXT_PAGE_TOKEN_EXPIRATION_MINUTES;
+    }
+
 
 }
