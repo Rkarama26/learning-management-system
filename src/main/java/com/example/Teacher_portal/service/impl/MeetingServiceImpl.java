@@ -3,6 +3,7 @@ package com.example.Teacher_portal.service.impl;
 import com.example.Teacher_portal.request.CreateMeetingReq;
 import com.example.Teacher_portal.response.CreateMeetingRes;
 import com.example.Teacher_portal.response.ListMeetingsResponse;
+import com.example.Teacher_portal.response.MeetingDetailsResponse;
 import com.example.Teacher_portal.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -93,6 +94,30 @@ public class MeetingServiceImpl implements MeetingService {
             return body;
         } catch (Exception e) {
             throw new RuntimeException("Error while calling Zoom API: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<MeetingDetailsResponse> getMeetingDetails(String meetingId) {
+        String url = "https://api.zoom.us/v2/meetings/" + meetingId;
+
+        // Set headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(tokenStore.getAccessToken());
+
+        // Make the API call
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        try {
+            ResponseEntity<MeetingDetailsResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    MeetingDetailsResponse.class
+            );
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching meeting details: " + e.getMessage(), e);
         }
     }
 

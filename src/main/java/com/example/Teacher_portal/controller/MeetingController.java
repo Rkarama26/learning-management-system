@@ -3,8 +3,10 @@ package com.example.Teacher_portal.controller;
 import com.example.Teacher_portal.request.CreateMeetingReq;
 import com.example.Teacher_portal.response.CreateMeetingRes;
 import com.example.Teacher_portal.response.ListMeetingsResponse;
+import com.example.Teacher_portal.response.MeetingDetailsResponse;
 import com.example.Teacher_portal.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.config.RepositoryNameSpaceHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class MeetingController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ListMeetingsResponse> getMeetings(@RequestHeader("Authorization") String jwt,  @RequestParam(defaultValue = "30") int pageSize,
+    public ResponseEntity<ListMeetingsResponse> getMeetings(@RequestHeader("Authorization") String jwt, @RequestParam(defaultValue = "30") int pageSize,
                                                             @RequestParam(defaultValue = "1") int pageNumber) {
         try {
             ListMeetingsResponse meetings = meetingService.listMeetings(pageSize, pageNumber);
@@ -45,5 +47,17 @@ public class MeetingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/{meetingId}")
+    public ResponseEntity<?> getMeetingDetails(@PathVariable String meetingId, @RequestHeader("Authorization") String jwt) {
+        try {
+
+            ResponseEntity<MeetingDetailsResponse> response = meetingService.getMeetingDetails(meetingId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 }
