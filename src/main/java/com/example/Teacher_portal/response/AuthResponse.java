@@ -1,36 +1,33 @@
 package com.example.Teacher_portal.response;
 
 public class AuthResponse {
-	
-	private String jwt;
-	
+
+    private String jwt;
+
     private String message;
-    
-    
-    
 
-	public AuthResponse(String jwt, String message) {
-		super();
-		this.jwt = jwt;
-		this.message = message;
-	}
 
-	public String getJwt() {
-		return jwt;
-	}
+    public AuthResponse(String jwt, String message) {
+        super();
+        this.jwt = jwt;
+        this.message = message;
+    }
 
-	public void setJwt(String jwt) {
-		this.jwt = jwt;
-	}
+    public String getJwt() {
+        return jwt;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-    
-    
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 
 }

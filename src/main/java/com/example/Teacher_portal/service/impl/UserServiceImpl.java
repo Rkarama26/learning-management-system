@@ -1,86 +1,85 @@
 package com.example.Teacher_portal.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.Teacher_portal.Entity.User;
 import com.example.Teacher_portal.exception.UserException;
 import com.example.Teacher_portal.jwt.JwtProvider;
 import com.example.Teacher_portal.repository.UserRepository;
 import com.example.Teacher_portal.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private JwtProvider Jwtprovider;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtProvider Jwtprovider;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	// finding userProfile by JWT
-	public User findUserprofileByJwt(String jwt) throws UserException {
+    // finding userProfile by JWT
+    public User findUserprofileByJwt(String jwt) throws UserException {
 
-		String email = Jwtprovider.getEmailFromToken(jwt);
+        String email = Jwtprovider.getEmailFromToken(jwt);
 
-		User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
 
-		if (user == null) {
-			throw new UserException("User not found");
-		}
+        if (user == null) {
+            throw new UserException("User not found");
+        }
 
-		return user;
-	}
+        return user;
+    }
 
-	// update profile
-	public User updateUserProfile(String jwt, User updatedUser) throws UserException {
-		User user = findUserprofileByJwt(jwt);
+    // update profile
+    public User updateUserProfile(String jwt, User updatedUser) throws UserException {
+        User user = findUserprofileByJwt(jwt);
 
-		// Update user profile fields
-		user.setFirstName(updatedUser.getFirstName());
-		user.setLastName(updatedUser.getLastName());
-		user.setEmail(updatedUser.getEmail());
-		user.setPhoneNumber(updatedUser.getPhoneNumber());
+        // Update user profile fields
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPhoneNumber(updatedUser.getPhoneNumber());
 
-		// Save updated user profile
-		User saveUser = userRepository.save(user);
+        // Save updated user profile
+        User saveUser = userRepository.save(user);
 
-		return saveUser;
-	}
+        return saveUser;
+    }
 
-	// Delete userProfile by ID
-	public void deleteUserProfile(Long id) throws UserException {
+    // Delete userProfile by ID
+    public void deleteUserProfile(Long id) throws UserException {
 
-		System.out.println(" in service User ID: " + id);
+        System.out.println(" in service User ID: " + id);
 
-		User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow();
 
-		userRepository.delete(user);
-	}
+        userRepository.delete(user);
+    }
 
-	// change password
-	public void changePassword(String jwt, String oldPassword, String newPassword) throws UserException {
+    // change password
+    public void changePassword(String jwt, String oldPassword, String newPassword) throws UserException {
 
-		// System.out.println(" in service JWT Token: " + jwt);
+        // System.out.println(" in service JWT Token: " + jwt);
 
-		User user = findUserprofileByJwt(jwt);
+        User user = findUserprofileByJwt(jwt);
 
-		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-			throw new UserException("Old password is incorrect");
-		}
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UserException("Old password is incorrect");
+        }
 
-		// Update the user's password
-		user.setPassword(passwordEncoder.encode(newPassword));
-		userRepository.save(user);
-	}
+        // Update the user's password
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
 
-	public User getUserById(Long userId) {
+    public User getUserById(Long userId) {
 
-		return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-	}
+    }
 
 }

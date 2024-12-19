@@ -1,56 +1,97 @@
 package com.example.Teacher_portal.Entity;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Availability {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column
-	private LocalDateTime startTime;
-	
-	@Column
-	private LocalDateTime endTime;
-	
-	@Column(nullable = false)
-	private boolean isBooked = false;
+    @Column
+    private LocalDateTime startTime;
 
-	@Column
-	@CreationTimestamp
-	private LocalDateTime createdAt;
+    @Column
+    private LocalDateTime endTime;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "users_id")
-	private User user;
+    @Column(nullable = false)
+    private boolean isBooked = false;
 
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
+    // No-argument constructor
+    public Availability() {
+    }
+
+    // All-arguments constructor
+    public Availability(Long id, LocalDateTime startTime, LocalDateTime endTime, boolean isBooked,
+                        LocalDateTime createdAt, User user) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isBooked = isBooked;
+        this.createdAt = createdAt;
+        this.user = user;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

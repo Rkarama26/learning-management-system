@@ -1,7 +1,10 @@
 package com.example.Teacher_portal.model.Role;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -10,17 +13,16 @@ import lombok.*;
 @NoArgsConstructor
 public class Permission {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(unique = true)
-	private String name;
+    @Column(unique = true)
+    private String name;
 
-	public Permission(String storedPermissionName) {
-		// TODO Auto-generated constructor stub
-	}
-	
+    public Permission(String storedPermissionName) {
+        // TODO Auto-generated constructor stub
+    }
 
 
 }

@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 public class TeacherPortalApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TeacherPortalApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(TeacherPortalApplication.class, args);
 
-	}
+    }
 
 }
 

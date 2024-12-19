@@ -1,16 +1,16 @@
 package com.example.Teacher_portal.request;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
 public class RescheduleRequest {
 
-	private LocalDateTime newStartTime;
+    private LocalDateTime newStartTime;
     private LocalDateTime newEndTime;
-    
+
 }
 

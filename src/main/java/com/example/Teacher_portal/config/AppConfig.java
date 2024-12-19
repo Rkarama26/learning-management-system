@@ -1,10 +1,10 @@
 package com.example.Teacher_portal.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.util.*;
+import com.example.Teacher_portal.jwt.JwtValidator;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,49 +15,51 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.example.Teacher_portal.jwt.JwtValidator;
+import java.util.Arrays;
+import java.util.Collections;
 
-import jakarta.servlet.http.HttpServletRequest;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class AppConfig {
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.
-		// session Less
-				sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.
+                // session Less
+                        sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/home/**",  "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**", 
-						"/swagger-ui.html", "localhost:8080").permitAll()
-						// .requestMatchers("/api/availability").hasRole("TEACHER")
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/home/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**",
+                                "/swagger-ui.html", "localhost:8080").permitAll()
+                        // .requestMatchers("/api/availability").hasRole("TEACHER")
 
-						.anyRequest().authenticated())
+                        .anyRequest().authenticated())
 
-				.addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
-				.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
+                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
 
-					@Override
-					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
-						CorsConfiguration cfg = new CorsConfiguration();
-						cfg.setAllowedOrigins(null);
-						cfg.setAllowedMethods(Collections.singletonList("*"));
-						cfg.setAllowCredentials(true);
-						cfg.setAllowedHeaders(Collections.singletonList("*"));
-						cfg.setExposedHeaders(Arrays.asList("Authorization"));
-						cfg.setMaxAge(3600L);
-						return cfg;
-					}
-				})).httpBasic(withDefaults()).formLogin(withDefaults());
+                        CorsConfiguration cfg = new CorsConfiguration();
+                        cfg.setAllowedOrigins(null);
+                        cfg.setAllowedMethods(Collections.singletonList("*"));
+                        cfg.setAllowCredentials(true);
+                        cfg.setAllowedHeaders(Collections.singletonList("*"));
+                        cfg.setExposedHeaders(Arrays.asList("Authorization"));
+                        cfg.setMaxAge(3600L);
+                        return cfg;
+                    }
+                })).httpBasic(withDefaults()).formLogin(withDefaults());
 
-		return http.build();
-	}
+        return http.build();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

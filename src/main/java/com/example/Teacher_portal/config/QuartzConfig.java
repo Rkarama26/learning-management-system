@@ -9,18 +9,17 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 @Configuration
 public class QuartzConfig {
 
-	@Bean
-	public JobFactory jobFactory() {
-		return new SpringBeanJobFactory();
-	}
+    @Bean
+    public JobFactory jobFactory() {
+        return new SpringBeanJobFactory();
+    }
 
-	@Bean
-	public SchedulerFactoryBean schedulerFactoryBean() {
-		SchedulerFactoryBean factory = new SchedulerFactoryBean();
-		factory.setJobFactory(jobFactory());
-		return factory;
-	}
-	
-	
-	
+    @Bean
+    public SchedulerFactoryBean schedulerFactoryBean() {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        factory.setJobFactory(jobFactory());
+        return factory;
+    }
+
+
 }
