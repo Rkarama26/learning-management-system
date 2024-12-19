@@ -1,6 +1,5 @@
 package com.example.Teacher_portal.controller;
 
-import com.example.Teacher_portal.request.RefreshTokenReq;
 import com.example.Teacher_portal.response.OAuthTokenResponse;
 import com.example.Teacher_portal.service.impl.InMemoryTokenStore;
 import com.fasterxml.jackson.core.JsonProcessingException;
