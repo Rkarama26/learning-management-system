@@ -8,7 +8,7 @@ import com.example.Teacher_portal.exception.SlotAlreadyPresentException;
 import com.example.Teacher_portal.exception.StartTimeBeforeCurrentTimeException;
 import com.example.Teacher_portal.repository.AvailRepository;
 import com.example.Teacher_portal.repository.UserRepository;
-import com.example.Teacher_portal.request.ReqAvailability;
+import com.example.Teacher_portal.request.AvailabilityReq;
 import com.example.Teacher_portal.service.AvailabilityService;
 import com.example.Teacher_portal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +83,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     // update
-    public Availability updateAvailability(Long id, ReqAvailability req) {
+    public Availability updateAvailability(Long id, AvailabilityReq req) {
         {
             Availability availability = availRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Slot Available"));
