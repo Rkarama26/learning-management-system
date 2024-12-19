@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -98,7 +99,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public ResponseEntity<MeetingDetailsResponse> getMeetingDetails(String meetingId) {
+    public MeetingDetailsResponse getMeetingDetails(String meetingId) {
         String url = "https://api.zoom.us/v2/meetings/" + meetingId;
 
         // Set headers
@@ -115,11 +116,45 @@ public class MeetingServiceImpl implements MeetingService {
                     entity,
                     MeetingDetailsResponse.class
             );
-            return response;
+            return response.getBody();
         } catch (Exception e) {
             throw new RuntimeException("Error fetching meeting details: " + e.getMessage(), e);
         }
     }
+
+    @Override
+    public String deleteMeeting(String meetingId) {
+        String url = String.format("https://api.zoom.us/v2/meetings/%s?schedule_for_reminder=true&cancel_meeting_reminder=true", meetingId);
+
+        // Set headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(tokenStore.getAccessToken());
+
+        // Prepare  request
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            // Make the DELETE API call
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.DELETE,
+                    entity,
+                    String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+                return "Meeting deleted successfully";
+            } else {
+                return "Meeting deletion failed with status: " + response.getStatusCode();
+            }
+        } catch (HttpClientErrorException e) {
+            throw new RuntimeException("Error deleting the meeting: " + e.getResponseBodyAsString(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while deleting the meeting: " + e.getMessage(), e);
+        }
+    }
+
 
 
 //    @Override

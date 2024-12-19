@@ -52,10 +52,22 @@ public class MeetingController {
     public ResponseEntity<?> getMeetingDetails(@PathVariable String meetingId, @RequestHeader("Authorization") String jwt) {
         try {
 
-            ResponseEntity<MeetingDetailsResponse> response = meetingService.getMeetingDetails(meetingId);
+            MeetingDetailsResponse response = meetingService.getMeetingDetails(meetingId);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{meetingId}")
+    public ResponseEntity<?> deleteMeeting( @RequestHeader("Authorization") String jwt, @PathVariable String meetingId) {
+        try {
+            String reponse = meetingService.deleteMeeting(meetingId);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException ex) {
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete meeting: " + ex.getMessage());
         }
     }
 

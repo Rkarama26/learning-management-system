@@ -14,5 +14,7 @@ public interface MeetingService {
 
     public ListMeetingsResponse listMeetings(int pageSize, int pageNumber);
 
-   public ResponseEntity<MeetingDetailsResponse> getMeetingDetails(String meetingId);
+   public MeetingDetailsResponse getMeetingDetails(String meetingId);
+
+   public  String deleteMeeting(String meetingId);
 }

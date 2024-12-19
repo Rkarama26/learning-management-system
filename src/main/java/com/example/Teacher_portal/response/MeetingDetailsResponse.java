@@ -1,6 +1,8 @@
 package com.example.Teacher_portal.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -28,7 +30,7 @@ public class MeetingDetailsResponse {
     private String status;
 
     @JsonProperty("start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @JsonProperty("duration")
     private int duration;
@@ -40,7 +42,7 @@ public class MeetingDetailsResponse {
     private String agenda;
 
     @JsonProperty("created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @JsonProperty("start_url")
     private String startUrl;
