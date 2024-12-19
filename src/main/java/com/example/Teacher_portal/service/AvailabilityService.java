@@ -1,7 +1,7 @@
 package com.example.Teacher_portal.service;
 
 import com.example.Teacher_portal.Entity.Availability;
-import com.example.Teacher_portal.request.AvailabilityReq;
+import com.example.Teacher_portal.request.ReqAvailability;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface AvailabilityService {
     public void deleteAvailability(Long id);
 
     // update
-    public Availability updateAvailability(Long id, AvailabilityReq req);
+    public Availability updateAvailability(Long id, ReqAvailability req);
 
     public List<Availability> getAllAvailableSlots();
 

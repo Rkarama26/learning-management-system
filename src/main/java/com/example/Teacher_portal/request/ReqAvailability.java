@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class AvailabilityReq {
+public class ReqAvailability {
 
     private DayOfWeek dayOfWeek;
 

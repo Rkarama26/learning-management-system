@@ -1,6 +1,5 @@
 package com.example.Teacher_portal.request;
 
-
 public class ChangePasswordRequest {
 
     private String oldPassword;
