@@ -116,6 +116,6 @@ Contributions are welcome! Please follow these steps:
 ## Contact
 
 For any questions or feedback, please reach out to:
-- **Email**: [your-email@example.com](mailto:rohit.karma026@gmail.com)
-- **GitHub**: [your-username](https://github.com/Rkarama26)
+- **Email**: [rohit.karma026@gmail.com](mailto:rohit.karma026@gmail.com)
+- **GitHub**: [Rkarama26](https://github.com/Rkarama26)
 
