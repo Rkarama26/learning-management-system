@@ -61,7 +61,7 @@ An online learning platform where students and teachers can interact in a one-on
 ### Steps to Install
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/teacher-portal.git
+   git clone https://github.com/Rkarama26/teacher-portal.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -80,19 +80,6 @@ An online learning platform where students and teachers can interact in a one-on
    - Run the application:
      ```bash
      mvn spring-boot:run
-     ```
-4. Set up the frontend:
-   - Navigate to the frontend folder:
-     ```bash
-     cd frontend
-     ```
-   - Install dependencies:
-     ```bash
-     npm install
-     ```
-   - Start the development server:
-     ```bash
-     npm start
      ```
 
 ---
