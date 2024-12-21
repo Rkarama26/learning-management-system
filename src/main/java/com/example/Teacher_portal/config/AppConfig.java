@@ -32,11 +32,15 @@ public class AppConfig {
                 // session Less
                         sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/home/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**",
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/home/**", "/oauth2/**",  "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**",
                                 "/swagger-ui.html", "localhost:8080").permitAll()
                         // .requestMatchers("/api/availability").hasRole("TEACHER")
 
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/oauth2/authorization/zoom")
+                )
 
                 .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class).csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {

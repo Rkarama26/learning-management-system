@@ -58,6 +58,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(updatedAvailability);
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/all")
     public ResponseEntity<List<Availability>> getAllAvailableSlots(@RequestHeader("Authorization") String jwt) {
 
