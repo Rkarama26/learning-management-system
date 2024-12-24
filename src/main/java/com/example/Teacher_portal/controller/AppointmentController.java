@@ -53,7 +53,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.rescheduleAppointment(appointmentId, newAvailabilitySlotId));
 
     }
-
+    @PreAuthorize("hasRole('TEACHER')")
     @DeleteMapping("/book/{appointmentId}")
     public ResponseEntity<Void> deleteAppointmentHandler(@RequestHeader("Authorization") String jwt,
                                                          @PathVariable Long appointmentId) throws BadRequestException {
@@ -69,6 +69,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/all")
     public ResponseEntity<List<Appointments>> getAllAppointments(@RequestHeader("Authorization") String jwt) {
 

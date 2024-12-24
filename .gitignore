@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+*.yml
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+src/main/java/com/example/Teacher_portal/constants
+application.yml
+

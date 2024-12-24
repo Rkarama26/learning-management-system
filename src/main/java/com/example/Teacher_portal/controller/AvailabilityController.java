@@ -24,7 +24,7 @@ public class AvailabilityController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasRole('TEACHER')")
+
     @GetMapping("/user")
     public ResponseEntity<List<Availability>> getUserAvailability(@RequestHeader("Authorization") String jwt) throws UserException {
 
@@ -58,7 +58,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(updatedAvailability);
     }
 
-    @PreAuthorize("hasRole('TEACHER')")
+
     @GetMapping("/all")
     public ResponseEntity<List<Availability>> getAllAvailableSlots(@RequestHeader("Authorization") String jwt) {
 
