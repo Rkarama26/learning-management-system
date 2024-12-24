@@ -33,6 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 
-#src/main/java/com/example/Teacher_portal/constants
-# application.yml
+src/main/java/com/example/Teacher_portal/constants
+application.yml
 

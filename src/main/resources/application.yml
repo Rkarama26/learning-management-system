@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: Teacher_portal
+
+  server:
+    port: 8080
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          zoom:
+            client-id: MGaqEQN9SYmctFcSGNvAZg
+            client-secret: DRAQF3ORlPaBUHoJsn3BLJLrWFiyox9Y
+            scope: read,write,openid
+            authorization-grant-type: authorization_code
+            redirect-uri: https://api.zoom/classroom
+        provider:
+          zoom:
+            authorization-uri: https://zoom.us/oauth/authorize
+            token-uri: https://zoom.us/oauth/token
+            user-info-uri: https://api.zoom.us/v2/users/me
+            user-name-attribute: id
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    # show-sql: true
+    # properties:
+    #   hibernate:
+    #     format_sql: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/stportal
+    username: root
+    password: MySQL@2003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: karma.rohit026@gmail.com
+    # password: terc pvdi yptv oznt
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+logging:
+  level:
+    org.springframework: DEBUG
+    # org.springframework.security: DEBUG
+
+# Uncomment the following for case-insensitive enums (if required)
+# spring:
+#   jackson:
+#     enumeration:
+#       case-insensitive: true
