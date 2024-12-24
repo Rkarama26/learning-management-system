@@ -5,6 +5,36 @@ spring:
   server:
     port: 8080
 
+  kafka:
+    bootstrap-servers: pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    consumer:
+      group-id: daily-reminder-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.example.Teacher_portal.Entity;
+
+    properties:
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username='N2ZSV7IUR3HVWV3Q' password='1KmOlGj/lW8KQzgSlR0H9HfUYNyKd2BtWUnDM62/VsuigwcD/ce4Jq/UK5c0y0py';
+      security:
+        protocol: SASL_SSL
+      session:
+        timeout:
+          ms: 45000
+
+  client:
+    id: ccloud-springboot-client-d8e32765-5aeb-4dcd-abf8-f89de2e78d2b
+
 
   security:
     oauth2:

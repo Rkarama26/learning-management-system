@@ -33,6 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 
-src/main/java/com/example/Teacher_portal/constants
+src/main/java/com/example/Teacher_portal/constants/CLconstants.java
 application.yml
 
