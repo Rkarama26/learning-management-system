@@ -1,4 +1,4 @@
-# Teacher Portal Application
+# Learning-Management-System
 
 An online learning platform where students and teachers can interact in a one-on-one environment through features like video conferencing, scheduling, and content sharing. The platform is designed to provide seamless communication and collaboration between teachers and students.
 
