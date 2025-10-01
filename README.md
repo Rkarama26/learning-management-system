@@ -54,7 +54,6 @@ An online learning platform where students and teachers can interact in a one-on
 
 ### Prerequisites
 - **Backend**: Java, Spring Boot
-- **Frontend**: React
 - **Database**: MySQL
 - **Other Tools**: Docker, Zoom API
 
